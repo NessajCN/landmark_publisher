@@ -9,11 +9,11 @@ LandmarkDetect::LandmarkDetect(ros::NodeHandle nh_priv_) : nh_(nh_priv_)
     nh_priv_.param<std::string>("map_frame", map_frame, "/map");
     nh_priv_.param<std::string>("camera_frame", camera_frame, "/camera");
     nh_priv_.param<std::string>("tracking_frame", tracking_frame, "/base_link");
-    nh_priv_.param<double>("publish_frequency",publish_frequency,10);
+    nh_priv_.param<double>("publish_frequency",publish_frequency,30);
     nh_priv_.param<double>("rotation_weight",rotation_weight,1e8-1);
     nh_priv_.param<double>("translation_weight",translation_weight,1e8-1);
 
-    listener.waitForTransform(tracking_frame, camera_frame, ros::Time(), ros::Duration(1.0));
+    listener.waitForTransform(tracking_frame, camera_frame, ros::Time::now(), ros::Duration(1.0));
 }
 
 void LandmarkDetect::landmarkDetectCallBack(const apriltag_ros::AprilTagDetectionArray::ConstPtr &tag_detections)
@@ -44,6 +44,7 @@ void LandmarkDetect::landmarkDetectCallBack(const apriltag_ros::AprilTagDetectio
 
         camera_pose_stamped.header = camera_header;
         camera_pose_stamped.pose = camera_pose;
+        listener.waitForTransform(tracking_frame, camera_frame, ros::Time::now(), ros::Duration(3.0));
         listener.transformPose(tracking_frame, camera_pose_stamped, tracking_pose_stamped);
         tracking_pose = tracking_pose_stamped.pose;
 
