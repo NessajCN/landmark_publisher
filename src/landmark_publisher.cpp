@@ -4,7 +4,7 @@ LandmarkDetect::LandmarkDetect(ros::NodeHandle nh_priv_) : nh_(nh_priv_)
 
 {
     pub_ = nh_.advertise<cartographer_ros_msgs::LandmarkList>("landmark",1);
-    sub_ = nh_.subscribe("tag_detection", 1, &LandmarkDetect::landmarkDetectCallBack, this);
+    sub_ = nh_.subscribe("tag_detections", 1, &LandmarkDetect::landmarkDetectCallBack, this);
     
     nh_priv_.param<std::string>("map_frame", map_frame, "/map");
     nh_priv_.param<std::string>("camera_frame", camera_frame, "/camera");
@@ -16,9 +16,9 @@ LandmarkDetect::LandmarkDetect(ros::NodeHandle nh_priv_) : nh_(nh_priv_)
     listener.waitForTransform(tracking_frame, camera_frame, ros::Time(), ros::Duration(1.0));
 }
 
-void LandmarkDetect::landmarkDetectCallBack(const apriltag_ros::AprilTagDetectionArray::ConstPtr &tag_detection)
+void LandmarkDetect::landmarkDetectCallBack(const apriltag_ros::AprilTagDetectionArray::ConstPtr &tag_detections)
 {
-    std::vector<apriltag_ros::AprilTagDetection> tag_array = tag_detection->detections;
+    std::vector<apriltag_ros::AprilTagDetection> tag_array = tag_detections->detections;
     
     // create header for landmark_list
     std_msgs::Header landmark_header;
