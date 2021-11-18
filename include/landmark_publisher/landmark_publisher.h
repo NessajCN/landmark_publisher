@@ -19,23 +19,18 @@ class LandmarkDetect
     LandmarkDetect(ros::NodeHandle nh_priv_);
     // ~LandmarkDetect();
 
+    public:
+    double publish_frequency;
+
     private:
     double translation_weight,rotation_weight;
-    uint16_t tag_id;
-    std::vector<int> tags;
     ros::NodeHandle nh_;
     ros::Subscriber sub_;
     ros::Publisher pub_;
 
-    tf::StampedTransform transform;
     tf::TransformListener listener;
-    geometry_msgs::PoseStamped vision_pose;
-    geometry_msgs::PoseStamped tag0_pose;
 
     std::string map_frame, camera_frame, tracking_frame;
-    double publish_frequency;
-
-    std::string family_;
 
     cartographer_ros_msgs::LandmarkList landmark_list;
     cartographer_ros_msgs::LandmarkEntry landmark_entry;

@@ -66,7 +66,7 @@ int main(int argc, char** argv)
 	ros::init(argc, argv, "landmarks_publisher");
 	ros::NodeHandle nh("~");
 	LandmarkDetect LandmarkDetect(nh);
-	ros::Rate loop_rate(50);  //50Hz
+	ros::Rate loop_rate(LandmarkDetect.publish_frequency);  //10Hz
 	while(ros::ok())
 	{
 		ros::spinOnce();
