@@ -63,7 +63,7 @@ void LandmarkDetect::landmarkDetectCallBack(const apriltag_ros::AprilTagDetectio
 
 int main(int argc, char** argv)
 {
-	ros::init(argc, argv, "landmarks_publisher");
+	ros::init(argc, argv, "landmark_publisher");
 	ros::NodeHandle nh("~");
 	LandmarkDetect LandmarkDetect(nh);
 	ros::Rate loop_rate(LandmarkDetect.publish_frequency);  //10Hz
