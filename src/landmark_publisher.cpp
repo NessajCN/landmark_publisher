@@ -3,8 +3,8 @@
 LandmarkDetect::LandmarkDetect(ros::NodeHandle nh_priv_) : nh_(nh_priv_)
 
 {
-    pub_ = nh_.advertise<cartographer_ros_msgs::LandmarkList>("landmark",1);
-    sub_ = nh_.subscribe("tag_detections", 1, &LandmarkDetect::landmarkDetectCallBack, this);
+    pub_ = nh_.advertise<cartographer_ros_msgs::LandmarkList>("/landmark",1);
+    sub_ = nh_.subscribe("/tag_detections", 1, &LandmarkDetect::landmarkDetectCallBack, this);
     
     nh_priv_.param<std::string>("map_frame", map_frame, "/map");
     nh_priv_.param<std::string>("camera_frame", camera_frame, "/camera");
