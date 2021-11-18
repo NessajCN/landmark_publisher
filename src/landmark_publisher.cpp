@@ -1,4 +1,6 @@
 #include "landmark_publisher/landmark_publisher.h"
+#include <iterator>
+#include <sstream>
 
 LandmarkDetect::LandmarkDetect(ros::NodeHandle nh_priv_) : nh_(nh_priv_)
 
@@ -49,7 +51,12 @@ void LandmarkDetect::landmarkDetectCallBack(const apriltag_ros::AprilTagDetectio
         tracking_pose = tracking_pose_stamped.pose;
 
         landmark_entry.tracking_from_landmark_transform = tracking_pose;
-        std::string id((*it).id.begin(),(*it).id.end());
+        // std::string id((*it).id.begin(),(*it).id.end());
+        // stringify apriltag id as landmark_entry id
+        std::stringstream tagid;
+        std::copy((*it).id.begin(),(*it).id.end(),std::ostream_iterator<int>(tagid,""));
+        std::string id = tagid.str();
+
         landmark_entry.id = id;
         landmark_entry.rotation_weight = rotation_weight;
         landmark_entry.translation_weight = translation_weight;
